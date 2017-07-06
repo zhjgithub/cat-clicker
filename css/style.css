@@ -1,0 +1,34 @@
+body {
+    text-align: center;
+}
+
+.containerBox {
+    position: relative;
+    display: inline-block;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-top: 100px;
+}
+
+.text-box {
+    position: absolute;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+    color: yellow;
+}
+
+.text-box:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.cat {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}

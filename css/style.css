@@ -1,14 +1,19 @@
 body {
-    text-align: center;
+    display: flex;
+}
+
+[hidden] {
+    display: none !important;
 }
 
 .cat-clicker {
-    margin-top: 100px;
+    width: 60%;
 }
 
-.container {
+.cat-container {
     display: inline-block;
     margin: 0 20px;
+    text-align: center;
 }
 
 .cat-box {
@@ -39,4 +44,10 @@ body {
     display: block;
     max-width: 100%;
     height: auto;
+    width: 300px;
+}
+
+#cat-list {
+    list-style-type: none;
+    float: left;
 }

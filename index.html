@@ -6,11 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.css" rel="stylesheet">
+    <script type="text/template" data-template="cat-list">
+        <li>
+            <label>
+                <input type="radio" name="cat" value="{{value}}">
+                {{name}}
+            </label>
+        </li>
+    </script>
 </head>
 
 <body>
     <ul id="cat-list"></ul>
-    <div class="cat-clicker"></div>
+    <div class="cat-container">
+        <div id="cat-clicker" class="cat-box">
+            <div id="click-count" class="text-box"></div>
+            <img id="cat-image" class="cat" src="" alt="cute cat">
+        </div>
+        <p id="cat-name"></p>
+    </div>
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/script.js"></script>
 </body>

@@ -1,81 +1,119 @@
-var catClickCount = {};
+(function () {
+    var data = {
+        cats: [{
+                name: 'Black And White Kitten On Brown Textile',
+                image: 'images/black-and-white-kitten-on-brown-textile.jpg',
+                clickCount: 0
+            },
+            {
+                name: 'Eyes On You Cat',
+                image: 'images/eyes-on-you-cat.jpg',
+                clickCount: 0
+            },
+            {
+                name: 'Grey And White Short Fur Cat',
+                image: 'images/grey-and-white-short-fur-cat.jpg',
+                clickCount: 0
+            },
+            {
+                name: 'Kittens Rush',
+                image: 'images/kittens-cat-cat-puppy-rush.jpg',
+                clickCount: 0
+            },
+            {
+                name: 'Silver Tabby Cat',
+                image: 'images/silver-tabby-cat.jpg',
+                clickCount: 0
+            },
+            {
+                name: 'Two Yellow Cat',
+                image: 'images/two-yellow-cat.jpg',
+                clickCount: 0
+            }
+        ],
+        selectedCat: 0
+    };
 
-(function initCatClicker() {
+    var octopus = {
+        init: function () {
+            viewCatList.init();
+            viewCatDetail.init();
+        },
 
-    var cats = [{
-            name: 'Black And White Kitten On Brown Textile',
-            image: 'images/black-and-white-kitten-on-brown-textile.jpg'
+        getAllCats: function () {
+            return data.cats;
         },
-        {
-            name: 'Eyes On You Cat',
-            image: 'images/eyes-on-you-cat.jpg'
+
+        chooseCat: function (index) {
+            data.selectedCat = index;
+            viewCatDetail.render();
         },
-        {
-            name: 'Grey And White Short Fur Cat',
-            image: 'images/grey-and-white-short-fur-cat.jpg'
+
+        getSelectedCat: function () {
+            return data.cats[data.selectedCat];
         },
-        {
-            name: 'Kittens Rush',
-            image: 'images/kittens-cat-cat-puppy-rush.jpg'
-        },
-        {
-            name: 'Silver Tabby Cat',
-            image: 'images/silver-tabby-cat.jpg'
-        },
-        {
-            name: 'Two Yellow Cat',
-            image: 'images/two-yellow-cat.jpg'
+
+        addClickCount: function () {
+            data.cats[data.selectedCat].clickCount++;
+            viewCatDetail.updateClickCount();
         }
-    ];
+    };
 
-    var formatCatList = '<li><label><input id="%id%" type="checkbox" name="%name%" value="%value%">%text%</label></li>';
+    var viewCatList = {
+        init: function () {
+            $('#cat-list').on('change', 'input[type="radio"]', function (event) {
+                var index = this.getAttribute('value');
+                octopus.chooseCat(index);
+            });
 
-    var formatCatClicker = '<div id="%id%" class="cat-container">' +
-        '<div class="cat-box">' +
-        '<div class="text-box">%count%</div>' +
-        '<img class="cat" src="%image%" alt="cute cat">' +
-        '</div>' +
-        '<p>%catName%</p>' +
-        '</div>';
+            this.render();
 
-    var increment = 0;
+            var $radios = $('input:radio[name=cat]');
+            if ($radios.is(':checked') === false) {
+                $radios.filter('[value=0]').prop('checked', true);
+            }
+        },
 
-    var allCats = [];
+        render: function () {
+            var listTemplate = $('script[data-template="cat-list"').html();
+            var list = [];
 
-    cats.forEach(function (cat) {
-        var id = 'cat-' + new Date().getTime().toString() + '-' + increment++;
-        var element = formatCatList.replace('%id%', id)
-            .replace('%name%', cat.name.replace(/ /g, '-'))
-            .replace('%value%', cat.image)
-            .replace('%text%', cat.name);
+            octopus.getAllCats().forEach(function (cat, index) {
+                var cat = listTemplate.replace(/{{name}}/g, cat.name)
+                    .replace(/{{value}}/g, index);
+                list.push(cat);
+            });
 
-        allCats.push(element);
-    });
-
-    var catList = $('#cat-list');
-    catList.html(allCats.join(''));
-
-    catList.on('change', 'input', function (event) {
-        var checked = this.checked;
-        var id = 'clicker-' + this.getAttribute('id');
-        var catClicker = document.getElementById(id);
-        if (catClicker != null) {
-            checked ? catClicker.removeAttribute('hidden') : catClicker.setAttribute('hidden', '');
-        } else if (checked) {
-            var element = formatCatClicker.replace('%id%', id)
-                .replace('%count%', 0)
-                .replace('%image%', this.getAttribute('value'))
-                .replace('%catName%', this.getAttribute('name').replace(/-/g, ' '));
-
-            $('.cat-clicker').append(element);
-            catClickCount[id] = 0;
+            $('#cat-list').html(list.join(''));
         }
-    });
+    };
 
-    var container = $('.cat-clicker');
-    container.on('click', '.cat-container', function (event) {
-        var id = this.getAttribute('id');
-        var count = ++catClickCount[id];
-        this.getElementsByClassName('text-box')[0].innerText = count.toString();
-    });
+    var viewCatDetail = {
+        init: function () {
+            this.clickCount = document.getElementById('click-count');
+            this.image = document.getElementById('cat-image');
+            this.catName = document.getElementById('cat-name');
+
+            document.getElementById('cat-clicker').addEventListener('click', function (event) {
+                octopus.addClickCount();
+            }, false);
+
+            this.render();
+        },
+
+        render: function () {
+            var cat = octopus.getSelectedCat();
+
+            this.catName.innerText = cat.name;
+            this.clickCount.innerText = cat.clickCount;
+            this.image.setAttribute('src', cat.image);
+        },
+
+        updateClickCount: function () {
+            var cat = octopus.getSelectedCat();
+            this.clickCount.innerText = cat.clickCount;
+        }
+    };
+
+    octopus.init();
 })();

@@ -17,7 +17,32 @@
 </head>
 
 <body>
-    <ul id="cat-list"></ul>
+    <div class="left-container">
+        <ul id="cat-list" class="cat-list"></ul>
+        <div class="admin-box">
+            <button type="button" id="btn-admin"> Admin </button>
+            <div id="admin-setting-box" class="admin-setting-box">
+                <form class="form">
+                    <div class="input">
+                        <label for="set-name"> Name: </label>
+                        <input id="set-name" type="text" name="name" value="" placeholder="input new name">
+                    </div>
+                    <div class="input">
+                        <label for="set-image"> Image: </label>
+                        <input id="set-image" type="text" name="image" value="" placeholder="input new url">
+                    </div>
+                    <div class="input">
+                        <label for="set-count"> Count: </label>
+                        <input id="set-count" type="text" name="count" value="" placeholder="input new count">
+                    </div>
+                    <div class="buttons">
+                        <button type="button" id="btn-save"> Save </button>
+                        <button type="button" id="btn-cancel"> Cancel </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="cat-container">
         <div id="cat-clicker" class="cat-box">
             <div id="click-count" class="text-box"></div>

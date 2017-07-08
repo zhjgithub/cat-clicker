@@ -1,10 +1,15 @@
 body {
     display: flex;
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
 }
 
 .cat-container {
     display: inline-block;
-    margin: 20px;
+    margin: 16px;
     text-align: center;
 }
 
@@ -39,8 +44,51 @@ body {
     /*width: 300px;*/
 }
 
-#cat-list {
+.cat-list {
     list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.left-container {
     float: left;
-    width: 30%;
+    width: 40%;
+    padding: 16px;
+}
+
+.admin-box {
+    margin-top: 20px;
+}
+
+#btn-admin {
+    float: left;
+    display: block;
+}
+
+.admin-setting-box {
+    margin-left: 16px;
+    display: inline-block;
+}
+
+.form {
+    margin: 32px 0;
+}
+
+.input {
+    margin-bottom: 16px;
+}
+
+input[type=text] {
+    font-size: 1.2em;
+}
+
+form label {
+    display: inline-block;
+    text-align: right;
+    width: 64px;
+    margin-right: 8px;
+}
+
+.buttons {
+    margin-left: 78px;
 }

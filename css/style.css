@@ -60,7 +60,7 @@ body {
     margin-top: 20px;
 }
 
-#btn-admin {
+.btn-admin {
     float: left;
     display: block;
 }

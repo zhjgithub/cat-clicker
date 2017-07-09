@@ -9,18 +9,18 @@
 </head>
 
 <body>
-    <div class="left-container">
-        <ul class="cat-list" data-bind="foreach: cats().catList">
+    <div class="left-container" data-bind="with: cats()">
+        <ul class="cat-list" data-bind="foreach: catList">
             <li>
                 <label>
-                    <input type="radio" name="cat" data-bind="value: $index, checked: $parent.cats().currentCat">
+                    <input type="radio" name="cat" data-bind="value: $index, checked: $parent.currentCat">
                     <span  data-bind="text: name()"></span>
                 </label>
             </li>
         </ul>
         <div class="admin-box">
-            <button class="btn-admin" type="button" data-bind="click: adminClick"> Admin </button>
-            <div class="admin-setting-box" data-bind="visible: cats().showAdmin">
+            <button class="btn-admin" type="button" data-bind="click:   $root.adminClick"> Admin </button>
+            <div class="admin-setting-box" data-bind="visible: showAdmin">
                 <form class="form">
                     <div class="input">
                         <label for="set-first-name"> First Name: </label>
@@ -36,23 +36,23 @@
                     </div>
                     <div class="input">
                         <label for="set-count"> Count: </label>
-                        <input id="set-count" type="text" placeholder="input new count" data-bind="value: cats().clickCount">
+                        <input id="set-count" type="text" placeholder="input new count" data-bind="value: clickCount">
                     </div>
                     <div class="buttons">
-                        <button type="button" data-bind="click: saveClick"> Save </button>
-                        <button type="button" data-bind="click: cancelClick"> Cancel </button>
+                        <button type="button" data-bind="click: $root.saveClick"> Save </button>
+                        <button type="button" data-bind="click: $root.cancelClick"> Cancel </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="cat-container">
-        <div data-bind="text: cats().level"></div>
-        <div class="cat-box" data-bind="click: addClickCount">
-            <div class="text-box" data-bind="text: cats().clickCount"></div>
-            <img class="cat" data-bind="attr: {src: cats().catImage}" alt="cute cat">
+    <div class="cat-container" data-bind="with: cats()">
+        <div data-bind="text: level"></div>
+        <div class="cat-box" data-bind="click: $root.addClickCount">
+            <div class="text-box" data-bind="text: clickCount"></div>
+            <img class="cat" data-bind="attr: {src: catImage}" alt="cute cat">
         </div>
-        <p data-bind="text: cats().catName"></p>
+        <p data-bind="text: catName"></p>
     </div>
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/knockout-3.4.2.js"></script>

@@ -123,36 +123,36 @@
         });
 
         this.adminClick = function () {
-            if (this.cats().showAdmin() === false) {
-                this.cats().showAdmin(true);
+            if (this.showAdmin() === false) {
+                this.showAdmin(true);
             }
         };
 
         this.saveClick = function () {
-            var firstName = this.elemInputFirstName.value;
-            var lastName = this.elemInputLastName.value;
-            var image = this.elemInputImage.value;
-            var count = parseInt(this.elemInputCount.value);
+            var firstName = self.elemInputFirstName.value;
+            var lastName = self.elemInputLastName.value;
+            var image = self.elemInputImage.value;
+            var count = parseInt(self.elemInputCount.value);
 
             if (firstName && lastName && image && !isNaN(count)) {
-                var cat = this.cats().currentCatObject();
+                var cat = this.currentCatObject();
                 cat.firstName = firstName;
                 cat.lastName = lastName;
                 cat.image = image;
                 cat.clickCount = count;
-                this.cats().catList()[this.cats().currentCat()].valueHasMutated();
-                this.cats().showAdmin(false);
+                this.catList()[this.currentCat()].valueHasMutated();
+                this.showAdmin(false);
             }
         };
 
         this.cancelClick = function () {
-            this.cats().showAdmin(false);
+            this.showAdmin(false);
         };
 
         this.addClickCount = function () {
-            var cat = this.cats().currentCatObject();
+            var cat = this.currentCatObject();
             cat.clickCount++;
-            this.cats().catList()[this.cats().currentCat()].valueHasMutated();
+            this.catList()[this.currentCat()].valueHasMutated();
         };
     };
 

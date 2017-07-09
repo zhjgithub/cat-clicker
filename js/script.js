@@ -1,105 +1,160 @@
-var appViewModel = function () {
-    var self = this;
-    this.elemInputName = document.getElementById('set-name');
-    this.elemInputImage = document.getElementById('set-image');
-    this.elemInputCount = document.getElementById('set-count');
+(function () {
+    var CatsModel = function () {
+        var self = this;
 
-    this.catList = ko.observableArray(
-        [
-            ko.observable({
-                name: 'Black And White Kitten On Brown Textile',
-                image: 'images/black-and-white-kitten-on-brown-textile.jpg',
-                clickCount: 0
-            }),
-            ko.observable({
-                name: 'Eyes On You Cat',
-                image: 'images/eyes-on-you-cat.jpg',
-                clickCount: 0
-            }),
-            ko.observable({
-                name: 'Grey And White Short Fur Cat',
-                image: 'images/grey-and-white-short-fur-cat.jpg',
-                clickCount: 0
-            }),
-            ko.observable({
-                name: 'Kittens Rush',
-                image: 'images/kittens-cat-cat-puppy-rush.jpg',
-                clickCount: 0
-            }),
-            ko.observable({
-                name: 'Silver Tabby Cat',
-                image: 'images/silver-tabby-cat.jpg',
-                clickCount: 0
-            }),
-            ko.observable({
-                name: 'Two Yellow Cat',
-                image: 'images/two-yellow-cat.jpg',
-                clickCount: 0
-            })
-        ]
-    );
+        this.catList = ko.observableArray(
+            [
+                ko.observable({
+                    firstName: 'Black And White',
+                    lastName: 'Kitten On Brown Textile',
+                    name: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    image: 'images/black-and-white-kitten-on-brown-textile.jpg',
+                    clickCount: 0
+                }),
+                ko.observable({
+                    firstName: 'Eyes On You',
+                    lastName: 'Cat',
+                    name: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    image: 'images/eyes-on-you-cat.jpg',
+                    clickCount: 0
+                }),
+                ko.observable({
+                    firstName: 'Grey And White',
+                    lastName: 'Short Fur Cat',
+                    name: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    image: 'images/grey-and-white-short-fur-cat.jpg',
+                    clickCount: 0
+                }),
+                ko.observable({
+                    firstName: 'Kittens',
+                    lastName: 'Rush',
+                    name: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    image: 'images/kittens-cat-cat-puppy-rush.jpg',
+                    clickCount: 0
+                }),
+                ko.observable({
+                    firstName: 'Silver',
+                    lastName: 'Tabby Cat',
+                    name: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    image: 'images/silver-tabby-cat.jpg',
+                    clickCount: 0
+                }),
+                ko.observable({
+                    firstName: 'Two',
+                    lastName: 'Yellow Cat',
+                    name: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    image: 'images/two-yellow-cat.jpg',
+                    clickCount: 0
+                })
+            ]
+        );
 
-    this.currentCat = ko.observable(0);
-    this.currentCat.subscribe(function () {
-        self.showAdmin(false);
-    });
+        this.currentCat = ko.observable(0);
+        this.currentCat.subscribe(function () {
+            self.showAdmin(false);
+        });
 
-    this.currentCatObject = ko.computed(function () {
-        return self.catList()[self.currentCat()]();
-    });
+        this.currentCatObject = ko.computed(function () {
+            return self.catList()[self.currentCat()]();
+        });
 
-    this.showAdmin = ko.observable(false);
-    this.showAdmin.subscribe(function (bShow) {
-        if (bShow) {
-            var cat = self.currentCatObject();
-            self.elemInputName.value = cat.name;
-            self.elemInputImage.value = cat.image;
-            self.elemInputCount.value = cat.clickCount;
-        }
-    });
+        this.showAdmin = ko.observable(false);
 
-    this.catImage = ko.computed(function () {
-        return this.currentCatObject().image;
-    }, this);
+        this.level = ko.computed(function () {
+            var clickCount = self.currentCatObject().clickCount;
+            var level = 'Newborn';
 
-    this.clickCount = ko.computed(function () {
-        return this.currentCatObject().clickCount;
-    }, this);
+            if (3 <= clickCount && clickCount <= 5) {
+                level = 'Infant';
+            } else if (6 <= clickCount && clickCount <= 10) {
+                level = 'Teen';
+            } else if (clickCount > 10) {
+                level = 'Grow up';
+            }
 
-    this.catName = ko.computed(function () {
-        return this.currentCatObject().name;
-    }, this);
+            return level;
+        });
 
-    this.adminClick = function () {
-        if (this.showAdmin() === false) {
-            this.showAdmin(true);
-        }
+        this.catImage = ko.computed(function () {
+            return this.currentCatObject().image;
+        }, this);
+
+        this.clickCount = ko.computed(function () {
+            return this.currentCatObject().clickCount;
+        }, this);
+
+        this.catName = ko.computed(function () {
+            return this.currentCatObject().name();
+        }, this);
+
     };
 
-    this.saveClick = function () {
-        var name = this.elemInputName.value;
-        var image = this.elemInputImage.value;
-        var count = parseInt(this.elemInputCount.value);
 
-        if (name && image && count) {
-            var cat = this.currentCatObject();
-            cat.name = name;
-            cat.image = image;
-            cat.clickCount = count;
-            this.catList()[this.currentCat()].valueHasMutated();
-            this.showAdmin(false);
-        }
+    var AppViewModel = function () {
+        var self = this;
+
+        this.elemInputFirstName = document.getElementById('set-first-name');
+        this.elemInputLastName = document.getElementById('set-last-name');
+        this.elemInputImage = document.getElementById('set-image');
+        this.elemInputCount = document.getElementById('set-count');
+
+        this.cats = ko.observable(new CatsModel());
+
+        this.cats().showAdmin.subscribe(function (bShow) {
+            if (bShow) {
+                var cat = self.cats().currentCatObject();
+                self.elemInputFirstName.value = cat.firstName;
+                self.elemInputLastName.value = cat.lastName;
+                self.elemInputImage.value = cat.image;
+                self.elemInputCount.value = cat.clickCount;
+            }
+        });
+
+        this.adminClick = function () {
+            if (this.cats().showAdmin() === false) {
+                this.cats().showAdmin(true);
+            }
+        };
+
+        this.saveClick = function () {
+            var firstName = this.elemInputFirstName.value;
+            var lastName = this.elemInputLastName.value;
+            var image = this.elemInputImage.value;
+            var count = parseInt(this.elemInputCount.value);
+
+            if (firstName && lastName && image && !isNaN(count)) {
+                var cat = this.cats().currentCatObject();
+                cat.firstName = firstName;
+                cat.lastName = lastName;
+                cat.image = image;
+                cat.clickCount = count;
+                this.cats().catList()[this.cats().currentCat()].valueHasMutated();
+                this.cats().showAdmin(false);
+            }
+        };
+
+        this.cancelClick = function () {
+            this.cats().showAdmin(false);
+        };
+
+        this.addClickCount = function () {
+            var cat = this.cats().currentCatObject();
+            cat.clickCount++;
+            this.cats().catList()[this.cats().currentCat()].valueHasMutated();
+        };
     };
 
-    this.cancelClick = function () {
-        this.showAdmin(false);
-    };
-
-    this.addClickCount = function () {
-        var cat = this.currentCatObject();
-        cat.clickCount++;
-        this.catList()[this.currentCat()].valueHasMutated();
-    };
-};
-
-ko.applyBindings(new appViewModel());
+    ko.applyBindings(new AppViewModel());
+}());

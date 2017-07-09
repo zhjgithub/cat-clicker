@@ -10,29 +10,33 @@
 
 <body>
     <div class="left-container">
-        <ul class="cat-list" data-bind="foreach: catList">
+        <ul class="cat-list" data-bind="foreach: cats().catList">
             <li>
                 <label>
-                    <input type="radio" name="cat" data-bind="value: $index, checked: $parent.currentCat">
-                    <span  data-bind="text: name"></span>
+                    <input type="radio" name="cat" data-bind="value: $index, checked: $parent.cats().currentCat">
+                    <span  data-bind="text: name()"></span>
                 </label>
             </li>
         </ul>
         <div class="admin-box">
             <button class="btn-admin" type="button" data-bind="click: adminClick"> Admin </button>
-            <div class="admin-setting-box" data-bind="visible: showAdmin">
+            <div class="admin-setting-box" data-bind="visible: cats().showAdmin">
                 <form class="form">
                     <div class="input">
-                        <label for="set-name"> Name: </label>
-                        <input id="set-name" type="text" name="catName" placeholder="input new name">
+                        <label for="set-first-name"> First Name: </label>
+                        <input id="set-first-name" type="text" placeholder="input first name">
+                    </div>
+                    <div class="input">
+                        <label for="set-last-name"> Last Name: </label>
+                        <input id="set-last-name" type="text" placeholder="input last name">
                     </div>
                     <div class="input">
                         <label for="set-image"> Image: </label>
-                        <input id="set-image" type="text" name="image" placeholder="input new url">
+                        <input id="set-image" type="text" placeholder="input new url">
                     </div>
                     <div class="input">
                         <label for="set-count"> Count: </label>
-                        <input id="set-count" type="text" name="count" placeholder="input new count" data-bind="value: clickCount">
+                        <input id="set-count" type="text" placeholder="input new count" data-bind="value: cats().clickCount">
                     </div>
                     <div class="buttons">
                         <button type="button" data-bind="click: saveClick"> Save </button>
@@ -43,11 +47,12 @@
         </div>
     </div>
     <div class="cat-container">
+        <div data-bind="text: cats().level"></div>
         <div class="cat-box" data-bind="click: addClickCount">
-            <div class="text-box" data-bind="text: clickCount"></div>
-            <img class="cat" data-bind="attr: {src: catImage}" alt="cute cat">
+            <div class="text-box" data-bind="text: cats().clickCount"></div>
+            <img class="cat" data-bind="attr: {src: cats().catImage}" alt="cute cat">
         </div>
-        <p data-bind="text: catName"></p>
+        <p data-bind="text: cats().catName"></p>
     </div>
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/knockout-3.4.2.js"></script>
